@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CharacterController2DScr : MonoBehaviour
 {
+    #region - Parameter -
+
     public CharacterControllerParameter parameter;
-    Rigidbody2D rigidbody2D;
+    new Rigidbody2D rigidbody2D;
     SpriteRenderer playerSprite;
     bool groundCheck = false;
 
@@ -15,6 +17,7 @@ public class CharacterController2DScr : MonoBehaviour
     //VariableMemory
     float speedMemory;
 
+    #endregion
 
     void Start()
     {
@@ -25,6 +28,7 @@ public class CharacterController2DScr : MonoBehaviour
 
     void Update()
     {
+        //Keyboard Input
         float horizontalValue = Input.GetAxis("Horizontal");
         float verticalValue = Input.GetAxis("Vertical");
 
@@ -42,10 +46,14 @@ public class CharacterController2DScr : MonoBehaviour
 
             Move(horizontalValue);
         }
+
+        //Jump
         if (verticalValue != 0 && groundCheck)
         {
             Jump(parameter.jumpStr);
         }
+
+        //Charge
         if(Input.GetKey(KeyCode.LeftShift))
         {
             isCharge = true;
@@ -79,13 +87,6 @@ public class CharacterController2DScr : MonoBehaviour
         }
     }
 
-    //Fall
-
-    void Fall()
-    {
-
-    }
-
     void Charge()
     {
         if (isCharge)
@@ -96,6 +97,9 @@ public class CharacterController2DScr : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region - Trigger Events -
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -118,4 +122,5 @@ public class CharacterController2DScr : MonoBehaviour
     }
 
     #endregion
+   
 }
