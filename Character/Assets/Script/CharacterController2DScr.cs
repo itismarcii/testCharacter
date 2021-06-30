@@ -11,6 +11,15 @@ public class CharacterController2DScr : MonoBehaviour
     SpriteRenderer playerSprite;
     bool groundCheck = false;
 
+    public enum States
+    {
+        idle,
+        jump,
+        charge
+    }
+
+     public States playerState;
+
     //Variable
     bool isCharge = false;
 
@@ -23,7 +32,6 @@ public class CharacterController2DScr : MonoBehaviour
     {
         speedMemory = parameter.speed;
         rigidbody2D = GetComponent<Rigidbody2D>();
-        playerSprite = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -37,13 +45,12 @@ public class CharacterController2DScr : MonoBehaviour
         {
             if(horizontalValue > 0)
             {
-                playerSprite.flipX = true;
+                transform.localScale = new Vector3(- 1, transform.localScale.y, transform.localScale.z);
             }
             else
             {
-                playerSprite.flipX = false;
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
             }
-
             Move(horizontalValue);
         }
 
@@ -65,6 +72,15 @@ public class CharacterController2DScr : MonoBehaviour
             isCharge = false;
         }
 
+        //GroundCheck
+        if(!groundCheck)
+        {
+            playerState = States.jump;
+        }
+        else if(!isCharge)
+        {
+            playerState = States.idle;
+        }
     }
 
     #region - Movements -
@@ -73,9 +89,9 @@ public class CharacterController2DScr : MonoBehaviour
     void Move(float horizontal)
     {
         var movePos = horizontal * parameter.speed;
-
-
         transform.position += new Vector3(movePos, 0, 0) * Time.deltaTime;
+
+        playerState = States.idle;
     }
 
     //Jump
@@ -95,6 +111,7 @@ public class CharacterController2DScr : MonoBehaviour
             {
                 parameter.speed *= parameter.chargeMulti;
             }
+            playerState = States.charge;
         }
     }
     #endregion
