@@ -18,7 +18,7 @@ public class CharacterController2DScr : MonoBehaviour
         charge
     }
 
-     public States playerState;
+    [HideInInspector] public States playerState;
 
     //Variable
     bool isCharge = false;
