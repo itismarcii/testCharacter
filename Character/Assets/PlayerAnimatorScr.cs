@@ -5,8 +5,12 @@ using UnityEngine.Animations;
 
 public class PlayerAnimatorScr : MonoBehaviour
 {
+    #region - Parameter -
+
     Animator playerAnimator;
     CharacterController2DScr controlls;
+
+    #endregion
 
     void Start()
     {
@@ -16,6 +20,7 @@ public class PlayerAnimatorScr : MonoBehaviour
 
     void Update()
     {
+        //AnimatorController via States
         switch(controlls.playerState)
         {
             case CharacterController2DScr.States.idle:
